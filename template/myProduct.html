@@ -1,0 +1,37 @@
+<md-dialog aria-label="Мои покупки">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Мои покупки</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content listBuyedProduct">
+                <md-list-item class="md-3-line" ng-show="filterAll || item.date == checkToday ? true : false" ng-repeat="item in buyedList track by $index" ng-click="null" }}>
+                    <img ng-src="{{item.image[0]}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{item.name}}</h3>
+                        <h4><b>{{item.price}}</b> енотов</h4>
+                        <p>{{item.date}} <span class="takeMeBaby" ng-show="item.date == checkToday ? true : false">{{item.date == checkToday ? "Забери меня!" : ""}}</span></p>
+                    </div>
+                </md-list-item>
+                <md-divider ></md-divider>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-accent" ng-click="filterAll = true">
+                Все покупки
+            </md-button>
+            <md-button class="md-raised md-accent" ng-click="filterAll = false">
+                Поступившие сегодня
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,45 @@
+.animation {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.animation.ng-leave-stagger {
+  -webkit-transition-delay: 0.03s;
+  transition-delay: 0.03s;
+  -webkit-transition-duration: 0s;
+  transition-duration: 0s;
+}
+.animation.ng-leave {
+  top: 40px;
+  opacity: 1;
+}
+.animation.ng-leave.ng-leave-active {
+  position: absolute;
+  top: 0px;
+  opacity: 0;
+}
+.animate-show-hide {
+  opacity: 1;
+}
+.animate-show-hide.ng-hide {
+  opacity: 0;
+}
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+  transition: all linear 1.0s;
+}
+.allContent.ng-enter-stagger {
+  -webkit-transition-delay: 3s;
+  transition-delay: 3s;
+  -webkit-transition-duration: 3s;
+  transition-duration: 3s;
+}
+.allContent {
+  opacity: 1;
+}
+.allContent.ng-hide {
+  opacity: 0;
+}
+.allContent.ng-hide-add,
+.allContent.ng-hide-remove {
+  transition: all 1.0s;
+}

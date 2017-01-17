@@ -1,0 +1,20 @@
+<div class="spinnerPreload">
+    <div layout="row" layout-padding layout-align="center center">
+        <md-progress-circular ng-show="!showSpinner" class="md-accent md-hue-1" md-diameter="120">
+        </md-progress-circular>
+    </div>
+    <div layout="row" layout-padding layout-align="center center">
+        <md-radio-group layout="row" ng-model="showCheck.category">
+            <md-radio-button ng-disabled = "true" value="category" class="md-accent">
+            </md-radio-button>
+        </md-radio-group>
+        <md-radio-group layout="row" ng-model="showCheck.product">
+            <md-radio-button ng-disabled = "true" value="product" class="md-accent">
+            </md-radio-button>
+        </md-radio-group>
+        <md-radio-group layout="row" ng-model="showCheck.shop">
+            <md-radio-button ng-disabled = "true" value="shop" class="md-accent">
+            </md-radio-button>
+        </md-radio-group>
+    </div>
+</div>

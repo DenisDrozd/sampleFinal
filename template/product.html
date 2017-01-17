@@ -1,0 +1,61 @@
+<md-dialog style="width: 100%;" aria-label="selectedItem.name">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{selectedItem.name}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_white_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content flex style="max-height:810px; ">
+            <md-tabs md-dynamic-height md-border-bottom md-selected="selectedDialog">
+                <md-tab label="Характеристика">
+                    <md-content class="md-padding">
+                        <img src="{{selectedItem.image[0]}}" style="max-height: 400px; max-width: 50%; float: left;" >
+                        <span class="md-display-2" style="padding-left: 20px; font-size: 32px;">{{selectedItem.name}}</span>
+                        <table style="width: 100%;" >
+                            <tr ng-repeat="item in selectedItem.characteristic" style="border-bottom: 1px solid grey;" layout-padding>
+                                <td style="width: 50%;" >
+                                    <span flex>{{item.name}}</span>
+                                </td>
+                                <td style="width: 50%;" >
+                                    <label flex>{{item.value}}</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Больше фотографий">
+                    <md-content class="md-padding">
+                        <img src="{{item}}" ng-repeat="item in selectedItem.image" flex="30" style="display: inline-block; max-width: 400px; max-height: 300px;">
+                    </md-content>
+                </md-tab>
+                <md-tab label="Покупка">
+                    <md-content class="md-padding">
+                        <md-list-item class="md-3-line" ng-repeat="item in selectedItem.shop" ng-click="null">
+                            <div class="md-list-item-text" layout="column">
+                                <h3>Магазин : "{{item.name}}"</h3>
+                                <h4>Цена товара в магазине : <label>{{(item.cost-item.cost*item.sale).toFixed(2)}}</label> енотов {{item.sale > 0 ? "co скидной "+(item.sale*100).toFixed(0) +"%" : ""}}</h4>
+                                <p>{{item.count > 0 ? "Есть в наличие "+ item.count + " ед. товара" : "Нет в наличие"}}</p>
+                                <md-button class="md-secondary md-raised md-accent" ng-click="buyProduct($index)" ng-show="{{item.count > 0 ? true : false}}">
+                                    Купить
+                                </md-button>
+                            </div>
+                        </md-list-item>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-raised md-accent" ng-click="selectedDialog = 2" ng-show="selectedDialog != 2" style="margin-right:20px;" >
+                Купить
+            </md-button>
+            <md-datepicker name="dateField" ng-model="myDate" md-placeholder="Введите дату" md-min-date="minDate" md-max-date="maxDate" ng-show="selectedDialog == 2">
+            </md-datepicker>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

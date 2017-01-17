@@ -1,0 +1,257 @@
+body {
+  overflow: auto;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+body .spinnerPreload {
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  margin-left: -75px;
+  margin-top: -120px;
+}
+body .logoContent {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  vertical-align: baseline;
+  background: rgba(33, 33, 33, 0.48);
+  transition: all 0.7s ease-in-out;
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+body .logoContent .logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  opacity: 0.1;
+  margin-left: -150px;
+  margin-top: -150px;
+  max-width: 300px;
+  max-height: 300px;
+  transition: all 0.5s;
+  z-index: 10;
+}
+body .logoContent .sky:hover .logo {
+  opacity: 0.8;
+  max-width: 400px;
+  max-height: 400px;
+  margin-left: -200px;
+  margin-top: -200px;
+}
+body .logoContent .sky:hover .skyLeftTop {
+  left: 50%;
+}
+body .logoContent .sky:hover .skyLeftBottom {
+  left: 35%;
+}
+body .logoContent .sky:hover .skyRight {
+  left: 67%;
+}
+body .logoContent .sky:hover .rainbow {
+  top: 45%;
+  opacity: 1;
+}
+body .logoContent .skyLeftTop {
+  position: absolute;
+  margin-left: -150px;
+  margin-top: -150px;
+  left: 45%;
+  top: 45%;
+  opacity: 0.8;
+  max-width: 400px;
+  max-height: 400px;
+  transition: left 0.5s;
+  z-index: 2;
+}
+body .logoContent .skyRight {
+  position: absolute;
+  margin-left: -150px;
+  margin-top: -150px;
+  left: 57%;
+  top: 55%;
+  opacity: 0.8;
+  max-width: 400px;
+  max-height: 400px;
+  transition: left 0.5s;
+  z-index: 3;
+}
+body .logoContent .skyLeftBottom {
+  position: absolute;
+  margin-left: -150px;
+  margin-top: -150px;
+  left: 40%;
+  top: 60%;
+  opacity: 0.8;
+  max-width: 400px;
+  max-height: 400px;
+  transition: left 0.5s;
+  z-index: 3;
+}
+body .logoContent .rainbow {
+  position: absolute;
+  margin-left: -200px;
+  margin-top: -200px;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+  max-width: 400px;
+  max-height: 400px;
+  transition: all 0.5s;
+  z-index: 4;
+}
+body .logoContent.ng-hide {
+  transform: translateY(-100%);
+}
+body .md-tab:hover {
+  background-color: #ffedc8 !important;
+}
+body .filterIconClose {
+  font-size: 35px;
+  float: right;
+}
+body .buttonFilter {
+  position: absolute;
+  top: 30px;
+}
+body .buttonFilter .filterIconFilter {
+  font-size: 26px;
+  text-align: center;
+  padding-top: 16px;
+}
+body .containerUpper {
+  margin-right: 100px;
+  float: right;
+}
+body .containerUpper .upperButton {
+  position: fixed;
+  bottom: 10px;
+}
+body .containerUpper .upperButton .IconUpper {
+  font-size: 26px;
+  text-align: center;
+  padding-top: 16px;
+}
+body .containerBuyed {
+  margin-right: 70px;
+  float: right;
+}
+body .containerBuyed .buyedButton {
+  position: fixed;
+  top: 130px;
+}
+body .containerBuyed .buyedButton .IconBuyed {
+  font-size: 26px;
+  text-align: center;
+  padding-top: 16px;
+}
+body body md-backdrop.md-opaque .containerBuyedLength {
+  opacity: 0;
+}
+body .containerBuyedLength {
+  margin-right: 30px;
+  float: right;
+}
+body .containerBuyedLength .buyedLength {
+  border-radius: 100px 100px 100px 100px;
+  position: fixed;
+  top: 175px;
+  background-color: red;
+  color: white;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  text-align: center;
+  z-index: 200;
+}
+body .containerMenu {
+  margin-right: 70px;
+  float: right;
+}
+body .containerMenu .menuButton {
+  position: absolute;
+  top: 0px;
+}
+body .containerMenu .menuButton .IconMenu {
+  font-size: 26px;
+  text-align: center;
+  padding-top: 16px;
+}
+body .IconBuyed {
+  font-size: 26px;
+  text-align: center;
+  padding-top: 16px;
+}
+body .item-title {
+  font-size: 10px;
+}
+body .item-metadata {
+  font-size: 12px;
+}
+body .categoryContent {
+  justify-content: center;
+}
+body .md-chips {
+  box-shadow: none !important;
+  float: left !important;
+}
+body .clear {
+  clear: both;
+}
+body md-input-container label {
+  font-weight: normal;
+}
+body md-chips.md-default-theme md-chip,
+body md-chips:nth-child(2) md-chip {
+  background: #73d3de  !important;
+  color: white !important;
+}
+body md-chips.md-default-theme md-chip,
+body md-chips:nth-child(3) md-chip {
+  background: #ffb74d !important;
+  color: white !important;
+}
+body md-chips.md-default-theme md-chip,
+body md-chips:nth-child(4) md-chip {
+  background: #74dbab !important;
+  color: white !important;
+}
+body md-backdrop.md-opaque {
+  position: fixed;
+}
+body .md-sidenav-left,
+body md-sidenav {
+  position: fixed;
+}
+body .listBuyedProduct {
+  padding: 0px;
+}
+body .takeMeBaby {
+  background-color: lightgreen;
+  color: white;
+  padding: 3px;
+  border-radius: 100px 100px 100px 100px;
+}
+@media (min-width: 1280px) {
+  .container {
+    width: 1280px !important;
+  }
+}
+.md-dialog-container {
+  position: fixed !important;
+  height: 100% !important;
+  top: 0px !important;
+}
+md-dialog {
+  max-width: 810px !important;
+  width: 75% !important;
+}
+md-backdrop.md-opaque {
+  opacity: 1;
+}

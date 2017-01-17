@@ -1,0 +1,157 @@
+<div class="logoContent" ng-click="hideLogo()" ng-show="showLogo">
+    <div class="sky">
+        <img class="logo" src="img/logo.png">
+        <img class="skyLeftTop" src="img/sky.png">
+        <img class="skyRight" src="img/sky.png">
+        <img class="skyLeftBottom" src="img/sky.png">
+        <img class="rainbow" src="img/rainbow.png">
+    </div>
+</div>
+
+<md-content>
+    <md-tabs class="animate-show-hide" ng-show="boolMenu" md-dynamic-height md-selected="selectedIndex">
+        <md-tab ng-click="selectedCategory(selectedIndex)" label={{menuList.name}} ng-repeat = "menuList in categoryNavBar">
+        </md-tab>
+    </md-tabs>
+</md-content>
+
+<div class="categoryContent" layout="row" layout-padding layout-wrap>
+    <md-whiteframe class="animation" ng-if="bool" flex-xs="100" flex-sm="50" flex-gt-sm="33" flex-gt-md="33" ng-repeat = "menuList in categoryNavBar">
+        <md-button ng-click="selectedCategory($index)" class="md-raised md-accent md-hue-1" layout-fill layout-padding>
+            {{menuList.name}}
+        </md-button>
+    </md-whiteframe>
+</div>
+
+<section class="allContent" ng-show="!bool" layout="row" ng-show="!bool" flex>
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" md-whiteframe="4">
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Фильтрация</h1>
+        </md-toolbar>
+        <md-content layout-padding ng-controller="LeftCtrl">
+            <div layout="column">
+                <md-input-container>
+                    <label>Бренд</label>
+                    <md-select ng-change="filterValues(selectedBrands, selectedShops)" ng-model="selectedBrands" multiple>
+                        <md-optgroup label="Бренд">
+                            <md-option ng-value="brands.brand" ng-repeat="brands in productShopBrand | filter:searchBrandFilter | unique: 'brand' | orderBy: 'brand'">{{brands.brand}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="column">
+                <md-input-container>
+                    <label>Магазин</label>
+                    <md-select ng-change="filterValues(selectedBrands, selectedShops)" ng-model="selectedShops" multiple>
+                        <md-optgroup label="Магазин">
+                            <md-option ng-value="shop.name" ng-repeat="shop in shops | orderBy: 'name'">{{shop.name}}</md-option>
+                        </md-optgroup>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="column">
+                <article>
+                    <md-switch ng-change="switchSale()" ng-model="data.cb1">
+                        Цена с учетом скидки
+                    </md-switch>
+                    <rzslider rz-slider-model="minValue" rz-slider-high="maxValue" rz-slider-options="rangeSlider.options"></rzslider>
+                </article>
+            </div>
+            <div layout="column">
+                <md-autocomplete flex
+                                 md-input-name="autocompleteField"
+                                 md-selected-item="ctrl.selectedItem"
+                                 md-search-text="ctrl.searchText"
+                                 md-items="item in characteristicFilter | filter: ctrl.searchText | orderBy: 'value' | unique: 'value'"
+                                 md-item-text="item.value + ' (' + item.name + ')'"
+                                 md-floating-label="Характеристики">
+                    <md-item-template>
+                        <span class="item-metadata" md-highlight-text="ctrl.searchText">{{item.value}}</span>
+                        <span class="item-title" md-highlight-text="ctrl.searchText">({{item.name}})</span>
+                    </md-item-template>
+                </md-autocomplete>
+                <div layout="row">
+                    <md-button flex = "66" ng-click="addCharacteristic(ctrl.selectedItem)" class="md-raised md-primary">Добавить</md-button>
+                    <md-button flex = "33" ng-click="clearCharacteristic()" class="md-raised md-primary">Очистить</md-button>
+                </div>
+            </div>
+        </md-content>
+    </md-sidenav>
+
+    <div>
+        <md-button  ng-click="toggleLeft()" class="md-fab md-primary buttonFilter" hide-gt-sm>
+            <i class="material-icons filterIconFilter" >&#xE152;</i>
+        </md-button>
+    </div>
+
+    <md-content flex layout-fill>
+        <md-list flex layout-fill>
+            <md-subheader class="md-no-sticky">
+                <md-card layout-padding>
+                    <div class="md-toolbar-tools">
+                        <md-input-container>
+                            <label>Поиск по модели</label>
+                            <input ng-model="searchName">
+                        </md-input-container>
+                    </div>
+                </md-card>
+                <md-chips ng-model="selectedBrands" readonly="true"
+                          md-removable="true">
+                    <md-chip-template>
+                        <span>{{$chip}}</span>
+                    </md-chip-template>
+                </md-chips>
+                <md-chips ng-model="selectedShops" readonly="true"
+                          md-removable="true">
+                    <md-chip-template>
+                        <span>{{$chip}}</span>
+                    </md-chip-template>
+                </md-chips>
+                <md-chips ng-model="selectedCharasteristic" readonly="true"
+                          md-removable="true">
+                    <md-chip-template>
+                        <span>{{$chip.value}} ({{$chip.name}})</span>
+                    </md-chip-template>
+                </md-chips>
+                <div class="clear"></div>
+                {{slider.minValue}} - {{slider.maxValue}}
+            </md-subheader>
+            <md-list-item ng-click="showTabDialog($event, item)" class="md-3-line" ng-repeat="item in productShop | filter:search" ng-click="null">
+                <img ng-src="{{item.image[0]}}?{{$index}}" class="md-avatar"/>
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{item.name}}</h3>
+                    <h4>{{item.description}}</h4>
+                    <div>
+                        <span ng-repeat="price in item.shop | filter:searchShopsPrice | orderBy: '-sale' | limitTo:1">
+                            Цена от  <label ng-show="!data.cb1">{{price.cost | number:2}}</label>
+                            <label ng-show="data.cb1">{{price.cost - price.cost*price.sale | number:2}}</label>
+                        </span>
+                        <span ng-repeat="price in item.shop | filter:searchShopsPrice | orderBy: '-sale' | limitTo:-1">
+                            до <label ng-show="!data.cb1">{{price.cost | number:2}}</label>
+                            <label ng-show="data.cb1">{{price.cost - price.cost*price.sale | number:2 }}</label> енотов
+                        </span>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-divider></md-divider>
+            <div class="containerUpper">
+                <md-button  ng-click="upToMenu()" class="md-fab md-primary upperButton">
+                    <i class="material-icons IconUpper">&#xE5D8;</i>
+                </md-button>
+            </div>
+            <div class="containerBuyed">
+                <md-button ng-click="showAdvanced($event)" class="md-fab md-accent buyedButton">
+                    <i class="material-icons IconBuyed">&#xE8CC;</i>
+                </md-button>
+            </div>
+            <div class="containerMenu">
+                <md-button  ng-click="showHideMenu()" class="md-fab md-primary menuButton">
+                    <i class="material-icons IconMenu">&#xE5D2;</i>
+                </md-button>
+            </div>
+            <div class="containerBuyedLength" ng-show="buyedLength > 0 && visibleBuyedlength == true ? true : false">
+                <p class="buyedLength">{{buyedLength}}</p>
+            </div>
+        </md-list>
+    </md-content>
+</section>
