@@ -114,7 +114,6 @@
                     </md-chip-template>
                 </md-chips>
                 <div class="clear"></div>
-                {{slider.minValue}} - {{slider.maxValue}}
             </md-subheader>
             <md-list-item ng-click="showTabDialog($event, item)" class="md-3-line" ng-repeat="item in productShop | filter:search" ng-click="null">
                 <img ng-src="{{item.image[0]}}?{{$index}}" class="md-avatar"/>
