@@ -29,7 +29,21 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
     repeater();
     function repeater () {
         if(database.checkDatabase()){
-            showCustomToast();
+            if($window.localStorage.length > 0){
+                var itemLocalStorage = [];
+                var itemCount = 0;
+                $scope.myDate = new Date();
+                $scope.checkToday = (new Date($scope.myDate.getFullYear(), $scope.myDate.getMonth(), $scope.myDate.getDate()+1)).toISOString().replace("T21:00:00.000Z","");
+                for (var i = 0; i < $window.localStorage.length; i++) {
+                    itemLocalStorage = JSON.parse($window.localStorage.getItem($window.localStorage.key(i)));
+                    if($scope.checkToday == itemLocalStorage.date) {
+                        itemCount++;
+                    }
+                }
+            }
+            if(itemCount > 0) {
+                showCustomToast();
+            }
         } else {
             $location.path('/');
             $timeout(function () {
@@ -54,7 +68,7 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
     $scope.boolMenu = false;
     $scope.data = {cb1: true};
     $scope.visibleBuyedlength = true;
-
+    $scope.firstTimeSelected = false;
     $scope.showHideMenu = function() {
         $scope.boolMenu = !$scope.boolMenu;
     }
@@ -85,6 +99,10 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                     }
                 }
             }
+            if(brandCheck == false) {
+                return false;
+            }
+
             if($scope.selectedCharasteristic.length == 0){
                 characteristicCheck = true;
             } else {
@@ -97,6 +115,9 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                     }
                 }
             }
+            if(characteristicCheck == false) {
+                return false;
+            }
 
             if($scope.searchName == "") {
                 nameCheck = true;
@@ -104,6 +125,9 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                 if(item.name.toUpperCase().indexOf($scope.searchName.toUpperCase()) != -1) {
                     nameCheck = true;
                 }
+            }
+            if(nameCheck == false) {
+                return false;
             }
 
             var minPriceSelected = 0;
@@ -182,6 +206,7 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
     }
 
     $scope.selectedCategory = function (value) {
+        database.generatePrice($scope.selectedShops , $scope.categoryNavBar[value].name);
         $scope.bool = false;
         $scope.boolMenu = true;
         $scope.selectedIndex = value;
@@ -193,6 +218,22 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
         $scope.selectedCharasteristic = [];
         $scope.searchName = "";
         window.scroll(0 ,0);
+
+        if($scope.firstTimeSelected == false) {
+            $scope.firstTimeSelected = true;
+            $timeout(function () {
+                if(value == 1){
+                    database.generatePrice($scope.selectedShops , $scope.categoryNavBar[2].name);
+                } else {
+                    database.generatePrice($scope.selectedShops , $scope.categoryNavBar[1].name);
+                }
+                $scope.$broadcast('sliderRangeEvent');
+            }, 500);
+            $timeout(function () {
+                database.generatePrice($scope.selectedShops , $scope.categoryNavBar[value].name);
+                $scope.$broadcast('sliderRangeEvent');
+            }, 1000);
+        }
     }
 
     $scope.toggleLeft = buildDelayedToggler('left');
@@ -274,7 +315,6 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
         $scope.buyedList = [];
         for (var i = 0; i< $window.localStorage.length; i++) {
             $scope.buyedList.push(JSON.parse($window.localStorage[$window.localStorage.key(i)]));
-            console.log($scope.buyedList);
         }
 
 
@@ -327,8 +367,8 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
 
     function showCustomToast() {
         $mdToast.show({
-            hideDelay   : 3000,
-            position    : 'bottom left',
+            hideDelay   : 10000,
+            position    : 'top right',
             controller  : 'ToastCtrl',
             templateUrl : 'template/toast.html'
         });
@@ -372,23 +412,6 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                 });
         };
 
-        $scope.minValue = 0;
-        $scope.maxValue = 90;
-        $scope.rangeSlider = {
-            options: {
-                floor: 0,
-                ceil: 100,
-                step: 1,
-                onChange : onSlider
-            }
-        };
-
-        function onSlider()
-        {
-            database.setSliderMax($scope.maxValue);
-            database.setSliderMin($scope.minValue);
-        }
-
         $scope.searchBrandFilter = function (item) {
             if(($scope.categoryNavBar[$scope.selectedIndex].name == item.category[0].name)
                 ||($scope.categoryNavBar[$scope.selectedIndex].name == item.category[1].name))
@@ -429,7 +452,6 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
         }
 
         $scope.$on('sliderRangeEvent', function() {
-            database.generatePrice($scope.selectedShops , $scope.categoryNavBar[$scope.selectedIndex].name);
 
             function onSlider()
             {
@@ -441,6 +463,8 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                 $scope.minValue = database.getMinPrice();
                 $scope.maxValue = database.getMaxPrice();
                 $scope.rangeSlider = {
+                    minValue: $scope.minValue,
+                    maxValue: $scope.maxValue,
                     options: {
                         floor: database.getMinPrice(),
                         ceil: database.getMaxPrice(),
@@ -448,10 +472,14 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                         onChange: onSlider
                     }
                 };
+                database.setSliderMax($scope.maxValue);
+                database.setSliderMin($scope.minValue);
             } else {
                 $scope.minValue = database.getMinSalePrice();
                 $scope.maxValue = database.getMaxSalePrice();
                 $scope.rangeSlider = {
+                    minValue: $scope.minValue,
+                    maxValue: $scope.maxValue,
                     options: {
                         floor: database.getMinSalePrice(),
                         ceil: database.getMaxSalePrice(),
@@ -459,6 +487,8 @@ app.controller('AppCtrl', function($rootScope, $scope, $http, $timeout, $mdSiden
                         onChange: onSlider
                     }
                 };
+                database.setSliderMax($scope.maxValue);
+                database.setSliderMin($scope.minValue);
             }
         });
 

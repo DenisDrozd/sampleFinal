@@ -1,0 +1,32 @@
+md-dialog {
+  width: 100%;
+}
+md-dialog md-dialog-content {
+  max-height: 810px;
+}
+md-dialog md-dialog-content .characteristicImage {
+  max-height: 400px;
+  max-width: 50%;
+  float: left;
+}
+md-dialog md-dialog-content .characteristicSpan {
+  padding-left: 20px;
+  font-size: 32px;
+}
+md-dialog md-dialog-content table {
+  width: 100%;
+}
+md-dialog md-dialog-content table tr {
+  border-bottom: 1px solid grey;
+}
+md-dialog md-dialog-content table tr td {
+  width: 50%;
+}
+md-dialog md-dialog-content .morePhoto {
+  display: inline-block;
+  max-width: 400px;
+  max-height: 300px;
+}
+md-dialog .speedButtonBuy {
+  margin-right: 20px;
+}
