@@ -26,35 +26,11 @@
     <link rel="stylesheet" href="style/mainPage.css">
     <link rel="stylesheet" href="style/animation.css">
     <link rel="stylesheet" href="style/product.css">
-    <script src="https://vk.com/js/api/openapi.js?139" type="text/javascript"></script>
-    <script type="text/javascript">
-        VK.init({
-            apiId: 5852291
-        });
-    </script>
 </head>
 
 <body ng-app="app">
     <div class="container" ng-view layout-align="center center">
 
     </div>
-
-    <div id="vk_api_transport"></div>
-    <script type="text/javascript">
-        window.vkAsyncInit = function() {
-            VK.init({
-                apiId: 5852291
-            });
-        };
-
-        setTimeout(function() {
-            var el = document.createElement("script");
-            el.type = "text/javascript";
-            el.src = "https://vk.com/js/api/openapi.js?139";
-            el.async = true;
-            document.getElementById("vk_api_transport").appendChild(el);
-        }, 0);
-    </script>
-
 </body>
 </html>
