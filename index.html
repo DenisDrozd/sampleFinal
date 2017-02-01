@@ -38,23 +38,9 @@
     <div class="container" ng-view layout-align="center center">
 
     </div>
-
-    <div id="vk_api_transport"></div>
+    <div id="vk_auth"></div>
     <script type="text/javascript">
-        window.vkAsyncInit = function() {
-            VK.init({
-                apiId: 5852291
-            });
-        };
-
-        setTimeout(function() {
-            var el = document.createElement("script");
-            el.type = "text/javascript";
-            el.src = "https://vk.com/js/api/openapi.js?139";
-            el.async = true;
-            document.getElementById("vk_api_transport").appendChild(el);
-        }, 0);
+        VK.Widgets.Auth("vk_auth", {width: "300px", authUrl: '/vklogin.php?'});
     </script>
-
 </body>
 </html>
